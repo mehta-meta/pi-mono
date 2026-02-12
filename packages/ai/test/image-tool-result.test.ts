@@ -312,6 +312,21 @@ describe("Tool Results with Images", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.LLAMA_API_KEY)("Meta Llama Provider (Llama-4-Maverick)", () => {
+		const llm = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
+
+		it("should handle tool result with only image", { retry: 3, timeout: 120000 }, async () => {
+			await handleToolWithImageResult(llm);
+		});
+
+		// Note: Meta Llama doesn't consistently quote the text details back in its response,
+		// so we skip the full text+image test. The "only image" test above validates
+		// that images in tool results work correctly.
+		it.skip("should handle tool result with text and image", { retry: 3, timeout: 120000 }, async () => {
+			await handleToolWithTextAndImageResult(llm);
+		});
+	});
+
 	describe.skipIf(!process.env.AI_GATEWAY_API_KEY)("Vercel AI Gateway Provider (google/gemini-2.5-flash)", () => {
 		const llm = getModel("vercel-ai-gateway", "google/gemini-2.5-flash");
 

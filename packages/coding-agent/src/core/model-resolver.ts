@@ -34,6 +34,7 @@ export const defaultModelPerProvider: Record<KnownProvider, string> = {
 	huggingface: "moonshotai/Kimi-K2.5",
 	opencode: "claude-opus-4-6",
 	"kimi-coding": "kimi-k2-thinking",
+	"meta-llama": "Llama-4-Maverick-17B-128E-Instruct-FP8",
 };
 
 export interface ScopedModel {

@@ -1259,6 +1259,59 @@ async function generateModels() {
 			allModels.push(model);
 		}
 	}
+	// Meta Llama API models (native Llama Stack API)
+	const META_LLAMA_BASE_URL = "https://api.llama.com/v1";
+	const metaLlamaModels: Model<"meta-llama">[] = [
+		{
+			id: "Llama-4-Maverick-17B-128E-Instruct-FP8",
+			name: "Llama 4 Maverick 17B (128 experts)",
+			api: "meta-llama",
+			provider: "meta-llama",
+			baseUrl: META_LLAMA_BASE_URL,
+			reasoning: false,
+			input: ["text", "image"],
+			cost: { input: 0.76, output: 0.76, cacheRead: 0, cacheWrite: 0 },
+			contextWindow: 131072,
+			maxTokens: 16384,
+		},
+		{
+			id: "Llama-4-Scout-17B-16E-Instruct",
+			name: "Llama 4 Scout 17B (16 experts)",
+			api: "meta-llama",
+			provider: "meta-llama",
+			baseUrl: META_LLAMA_BASE_URL,
+			reasoning: false,
+			input: ["text", "image"],
+			cost: { input: 0.76, output: 0.76, cacheRead: 0, cacheWrite: 0 },
+			contextWindow: 1048576,
+			maxTokens: 16384,
+		},
+		{
+			id: "Llama-3.3-70B-Instruct",
+			name: "Llama 3.3 70B Instruct",
+			api: "meta-llama",
+			provider: "meta-llama",
+			baseUrl: META_LLAMA_BASE_URL,
+			reasoning: false,
+			input: ["text"],
+			cost: { input: 0.6, output: 0.6, cacheRead: 0, cacheWrite: 0 },
+			contextWindow: 131072,
+			maxTokens: 16384,
+		},
+		{
+			id: "Llama-3.2-3B-Instruct",
+			name: "Llama 3.2 3B Instruct",
+			api: "meta-llama",
+			provider: "meta-llama",
+			baseUrl: META_LLAMA_BASE_URL,
+			reasoning: false,
+			input: ["text"],
+			cost: { input: 0.1, output: 0.1, cacheRead: 0, cacheWrite: 0 },
+			contextWindow: 131072,
+			maxTokens: 16384,
+		},
+	];
+	allModels.push(...metaLlamaModels);
 
 	const azureOpenAiModels: Model<Api>[] = allModels
 		.filter((model) => model.provider === "openai" && model.api === "openai-responses")

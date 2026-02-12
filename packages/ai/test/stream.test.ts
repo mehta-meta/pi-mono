@@ -1291,6 +1291,33 @@ describe("Generate E2E Tests", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.LLAMA_API_KEY)(
+		"Meta Llama Provider (Llama-4-Maverick-17B-128E-Instruct-FP8 via Native API)",
+		() => {
+			const llm = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
+
+			it("should complete basic text generation", { retry: 3, timeout: 60000 }, async () => {
+				await basicTextGeneration(llm);
+			});
+
+			it("should handle tool calling", { retry: 3, timeout: 60000 }, async () => {
+				await handleToolCall(llm);
+			});
+
+			it("should handle streaming", { retry: 3, timeout: 60000 }, async () => {
+				await handleStreaming(llm);
+			});
+
+			it("should handle image input", { retry: 3, timeout: 60000 }, async () => {
+				await handleImage(llm);
+			});
+
+			it("should handle multi-turn with tools", { retry: 3, timeout: 180000 }, async () => {
+				await multiTurn(llm);
+			});
+		},
+	);
+
 	// Check if ollama is installed and local LLM tests are enabled
 	let ollamaInstalled = false;
 	if (!process.env.PI_NO_LOCAL_LLM) {

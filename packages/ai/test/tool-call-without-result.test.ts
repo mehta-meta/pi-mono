@@ -208,6 +208,14 @@ describe("Tool Call Without Result Tests", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.LLAMA_API_KEY)("Meta Llama Provider", () => {
+		const model = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
+
+		it("should filter out tool calls without corresponding tool results", { retry: 3, timeout: 30000 }, async () => {
+			await testToolCallWithoutResult(model);
+		});
+	});
+
 	describe.skipIf(!process.env.AI_GATEWAY_API_KEY)("Vercel AI Gateway Provider", () => {
 		const model = getModel("vercel-ai-gateway", "google/gemini-2.5-flash");
 
