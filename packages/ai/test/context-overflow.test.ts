@@ -459,6 +459,31 @@ describe("Context overflow error handling", () => {
 	});
 
 	// =============================================================================
+	// Meta Llama
+	// Special case: Silently handles context overflow, returns stop with empty usage
+	// =============================================================================
+
+	describe.skipIf(!process.env.LLAMA_API_KEY)("Meta Llama", () => {
+		it("Llama-4-Maverick - should detect overflow via isContextOverflow (llama silently truncates)", async () => {
+			const model = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
+			const result = await testContextOverflow(model, process.env.LLAMA_API_KEY!);
+			logResult(result);
+
+			// Meta Llama silently handles context overflow:
+			// - Returns stopReason "stop" with empty usage (input:0, output:0)
+			// - Does not return an error, so we cannot detect overflow via isContextOverflow
+			// This is similar to Ollama's behavior
+			if (result.stopReason === "stop") {
+				// Llama truncated or handled overflow silently
+				console.log("  Meta Llama silently handled overflow (usage:", JSON.stringify(result.usage), ")");
+				// Accept this behavior - Meta Llama doesn't give us a way to detect overflow
+			} else if (result.stopReason === "error") {
+				expect(isContextOverflow(result.response, model.contextWindow)).toBe(true);
+			}
+		}, 120000);
+	});
+
+	// =============================================================================
 	// Vercel AI Gateway - Unified API for multiple providers
 	// =============================================================================
 

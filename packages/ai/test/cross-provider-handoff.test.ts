@@ -94,6 +94,8 @@ const PROVIDER_MODEL_PAIRS: ProviderModelPair[] = [
 	{ provider: "mistral", model: "devstral-medium-latest", label: "mistral-devstral-medium" },
 	// MiniMax
 	{ provider: "minimax", model: "MiniMax-M2.1", label: "minimax-m2.1" },
+	// Meta Llama
+	{ provider: "meta-llama", model: "Llama-4-Maverick-17B-128E-Instruct-FP8", label: "meta-llama-maverick-17b" },
 	// OpenCode Zen
 	{ provider: "opencode", model: "big-pickle", label: "zen-big-pickle" },
 	{ provider: "opencode", model: "claude-sonnet-4-5", label: "zen-claude-sonnet-4-5" },

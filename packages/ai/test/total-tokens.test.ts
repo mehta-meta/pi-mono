@@ -418,6 +418,29 @@ describe("totalTokens field", () => {
 	});
 
 	// =========================================================================
+	// Meta Llama
+	// =========================================================================
+
+	describe.skipIf(!process.env.LLAMA_API_KEY)("Meta Llama", () => {
+		it(
+			"Llama-4-Maverick - should return totalTokens equal to sum of components",
+			{ retry: 3, timeout: 180000 },
+			async () => {
+				const llm = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
+
+				console.log(`\nMeta Llama / ${llm.id}:`);
+				const { first, second } = await testTotalTokensWithCache(llm, { apiKey: process.env.LLAMA_API_KEY });
+
+				logUsage("First request", first);
+				logUsage("Second request", second);
+
+				assertTotalTokensEqualsComponents(first);
+				assertTotalTokensEqualsComponents(second);
+			},
+		);
+	});
+
+	// =========================================================================
 	// Vercel AI Gateway
 	// =========================================================================
 

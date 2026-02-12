@@ -50,7 +50,7 @@ async function testTokensOnAbort<TApi extends Api>(llm: Model<TApi>, options: St
 
 	expect(msg.stopReason).toBe("aborted");
 
-	// OpenAI providers, OpenAI Codex, Gemini CLI, zai, Amazon Bedrock, and the GPT-OSS model on Antigravity only send usage in the final chunk,
+	// OpenAI providers, OpenAI Codex, Gemini CLI, zai, Amazon Bedrock, Meta Llama, and the GPT-OSS model on Antigravity only send usage in the final chunk,
 	// so when aborted they have no token stats. Anthropic and Google send usage information early in the stream.
 	// MiniMax reports input tokens but not output tokens when aborted.
 	if (
@@ -62,6 +62,7 @@ async function testTokensOnAbort<TApi extends Api>(llm: Model<TApi>, options: St
 		llm.provider === "zai" ||
 		llm.provider === "amazon-bedrock" ||
 		llm.provider === "vercel-ai-gateway" ||
+		llm.provider === "meta-llama" ||
 		(llm.provider === "google-antigravity" && llm.id.includes("gpt-oss"))
 	) {
 		expect(msg.usage.input).toBe(0);
@@ -188,6 +189,14 @@ describe("Token Statistics on Abort", () => {
 
 	describe.skipIf(!process.env.KIMI_API_KEY)("Kimi For Coding Provider", () => {
 		const llm = getModel("kimi-coding", "kimi-k2-thinking");
+
+		it("should include token stats when aborted mid-stream", { retry: 3, timeout: 30000 }, async () => {
+			await testTokensOnAbort(llm);
+		});
+	});
+
+	describe.skipIf(!process.env.LLAMA_API_KEY)("Meta Llama Provider", () => {
+		const llm = getModel("meta-llama", "Llama-4-Maverick-17B-128E-Instruct-FP8");
 
 		it("should include token stats when aborted mid-stream", { retry: 3, timeout: 30000 }, async () => {
 			await testTokensOnAbort(llm);
