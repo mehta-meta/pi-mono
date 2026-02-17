@@ -1260,6 +1260,7 @@ async function generateModels() {
 		}
 	}
 	// Meta Llama API models (native Llama Stack API)
+	// Costs are $0 because the API is currently free
 	const META_LLAMA_BASE_URL = "https://api.llama.com/v1";
 	const metaLlamaModels: Model<"meta-llama">[] = [
 		{
@@ -1270,9 +1271,9 @@ async function generateModels() {
 			baseUrl: META_LLAMA_BASE_URL,
 			reasoning: false,
 			input: ["text", "image"],
-			cost: { input: 0.76, output: 0.76, cacheRead: 0, cacheWrite: 0 },
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
 			contextWindow: 131072,
-			maxTokens: 16384,
+			maxTokens: 32768,
 		},
 		{
 			id: "Llama-4-Scout-17B-16E-Instruct",
@@ -1282,9 +1283,9 @@ async function generateModels() {
 			baseUrl: META_LLAMA_BASE_URL,
 			reasoning: false,
 			input: ["text", "image"],
-			cost: { input: 0.76, output: 0.76, cacheRead: 0, cacheWrite: 0 },
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
 			contextWindow: 1048576,
-			maxTokens: 16384,
+			maxTokens: 32768,
 		},
 		{
 			id: "Llama-3.3-70B-Instruct",
@@ -1294,21 +1295,21 @@ async function generateModels() {
 			baseUrl: META_LLAMA_BASE_URL,
 			reasoning: false,
 			input: ["text"],
-			cost: { input: 0.6, output: 0.6, cacheRead: 0, cacheWrite: 0 },
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
 			contextWindow: 131072,
-			maxTokens: 16384,
+			maxTokens: 8192,
 		},
 		{
-			id: "Llama-3.2-3B-Instruct",
-			name: "Llama 3.2 3B Instruct",
+			id: "Llama-3.3-8B-Instruct",
+			name: "Llama 3.3 8B Instruct",
 			api: "meta-llama",
 			provider: "meta-llama",
 			baseUrl: META_LLAMA_BASE_URL,
 			reasoning: false,
 			input: ["text"],
-			cost: { input: 0.1, output: 0.1, cacheRead: 0, cacheWrite: 0 },
+			cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
 			contextWindow: 131072,
-			maxTokens: 16384,
+			maxTokens: 8192,
 		},
 	];
 	allModels.push(...metaLlamaModels);
